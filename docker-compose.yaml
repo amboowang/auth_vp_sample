@@ -1,0 +1,38 @@
+version: "2.4"
+
+services:
+  nginx:
+    image: nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/localhost.crt:/etc/ssl/certs/localhost.crt:ro
+      - ./nginx/localhost.key:/etc/ssl/private/localhost.key:ro
+    ports:
+      - 80:80
+      - 443:443
+  # auth-server:
+  #   build: auth-server
+  #   command: ["--base-path", "/"]
+  #   ports:
+  #     - 8080:8080
+  vouch-proxy:
+    image: voucher/vouch-proxy
+    ports:
+      - 9090:9090
+    environment:
+      # VOUCH_DOMAINS: amboowang.cc
+      VOUCH_COOKIE_DOMAIN: amboowang.cc
+      OAUTH_PROVIDER: github
+      OAUTH_CLIENT_ID: 178ee0d5410ab4d54f6d   
+      OAUTH_CLIENT_SECRET: 46d1a5f530f76121f54666044e13725e2658fed5 
+      OAUTH_CALLBACK_URL: http://vouch.amboowang.cc:9090/auth
+      VOUCH_COOKIE_SECURE: 'false'
+      VOUCH_ALLOWALLUSERS: 'true'
+  sample:
+    build: sample
+    ports:
+      - 9001:9001      
+  # whoami:
+  #   image: jwilder/whoami
+  #   ports:
+  #     - 8000:8000
