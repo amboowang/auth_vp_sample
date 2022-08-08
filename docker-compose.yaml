@@ -28,6 +28,8 @@ services:
       OAUTH_CALLBACK_URL: http://vouch.amboowang.cc:9090/auth
       VOUCH_COOKIE_SECURE: 'false'
       VOUCH_ALLOWALLUSERS: 'true'
+      VOUCH_LOGLEVEL: 'debug'
+      VOUCH_HEADERS_ACCESSTOKEN: X-Vouch-IdP-AccessToken
   sample:
     build: sample
     ports:
